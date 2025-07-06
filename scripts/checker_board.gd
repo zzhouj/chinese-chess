@@ -47,6 +47,14 @@ func add_piece(piece: Piece, coordinate: Vector2i) -> void:
 			board[coordinate.x][coordinate.y] = piece
 			piece.position = get_position_from_coordinate(coordinate)
 			add_child(piece)
+			piece.clicked.connect(_on_piece_clicked)
+			board[coordinate.x][coordinate.y] = piece
 
 func get_position_from_coordinate(coordinate: Vector2i) -> Vector2:
-	return BOARD_NW + Vector2(coordinate.x * COL_WIDTH, (BOARD_ROWS - 1 - coordinate.y) * ROW_HEIGHT)
+	return BOARD_NW + Vector2(\
+	coordinate.x * COL_WIDTH, \
+	(BOARD_ROWS - 1 - coordinate.y) * ROW_HEIGHT)
+
+func _on_piece_clicked(piece: Piece) -> void:
+	var coordinates: Array[Vector2i] = piece.search_movable_coordinates(board)
+	print(piece.get_symbol(), coordinates)

@@ -28,8 +28,8 @@ static func create(color: Piece.COLOR, symbol: String) -> Piece:
 		piece = RED_PIECE_SECNES[symbol[0]].instantiate()
 	else:
 		piece = BLACK_PIECE_SECNES[symbol[0]].instantiate()
-	var x:int = symbol.unicode_at(1) - "a".unicode_at(0)
-	var y:int = symbol.unicode_at(2) - "0".unicode_at(0)
-	var coordinate: Vector2i = Vector2i(x, y)
+	var coordinate: Vector2i = Vector2i(\
+	symbol.unicode_at(1) - "a".unicode_at(0), \
+	symbol.unicode_at(2) - "0".unicode_at(0))
 	piece.coordinate = coordinate
 	return piece
