@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdgrp20d1hkss"]
+
+[ext_resource type="Texture2D" uid="uid://cgsjnm7hepy16" path="res://textures/chinese-chess-pieces.webp" id="1_yvilk"]
+[ext_resource type="Script" uid="uid://p8tbp5f8ntge" path="res://scripts/advisor_piece.gd" id="2_ioo7i"]
+
+[node name="BlackAdvisorPiece" type="Sprite2D"]
+rotation = 3.14159
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_yvilk")
+region_enabled = true
+region_rect = Rect2(396, 387, 220, 219)
+script = ExtResource("2_ioo7i")
+color = 1
+type = 1
+metadata/_custom_type_script = "uid://ciinpb7ivdjiq"
