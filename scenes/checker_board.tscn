@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bi0teiqfkxtyr"]
+
+[ext_resource type="Texture2D" uid="uid://gv5t7sqlvrcc" path="res://textures/chinese-chess-bg.webp" id="1_u4rbx"]
+
+[node name="CheckerBoard" type="Sprite2D"]
+texture = ExtResource("1_u4rbx")
+centered = false
