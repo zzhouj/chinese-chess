@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://exnu2pllpf6i"]
+
+[ext_resource type="Texture2D" uid="uid://cgsjnm7hepy16" path="res://textures/chinese-chess-pieces.webp" id="1_uecyf"]
+[ext_resource type="Script" uid="uid://dau2yec2vh1uu" path="res://scripts/king_piece.gd" id="2_0oqvk"]
+
+[node name="BlackKingPiece" type="Sprite2D"]
+rotation = 3.14159
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_uecyf")
+region_enabled = true
+region_rect = Rect2(394, 142, 220, 219)
+script = ExtResource("2_0oqvk")
+color = 1
+metadata/_custom_type_script = "uid://ciinpb7ivdjiq"

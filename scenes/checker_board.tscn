@@ -1,7 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://bi0teiqfkxtyr"]
+[gd_scene load_steps=3 format=3 uid="uid://bi0teiqfkxtyr"]
 
 [ext_resource type="Texture2D" uid="uid://gv5t7sqlvrcc" path="res://textures/chinese-chess-bg.webp" id="1_u4rbx"]
+[ext_resource type="Script" uid="uid://c0v8exxljsudf" path="res://scripts/checker_board.gd" id="2_ywy16"]
 
 [node name="CheckerBoard" type="Sprite2D"]
 texture = ExtResource("1_u4rbx")
 centered = false
+script = ExtResource("2_ywy16")
