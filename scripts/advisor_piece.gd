@@ -1,5 +1,10 @@
 class_name AdvisorPiece
-extends Piece
+extends KingPiece
 
-func search_movable_coordinates(board: Array[Array]) -> Array[Vector2i]:
-	return []
+func get_directions() -> Array[Vector2i]:
+	return [
+		Vector2i.UP + Vector2i.LEFT,
+		Vector2i.UP + Vector2i.RIGHT,
+		Vector2i.DOWN + Vector2i.LEFT,
+		Vector2i.DOWN + Vector2i.RIGHT,
+	]
