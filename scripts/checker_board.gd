@@ -10,11 +10,17 @@ const BOARD_SE := Vector2(1072, 1230)
 const COL_WIDTH := (BOARD_SE.x - BOARD_NW.x) / (BOARD_COLS - 1)
 const ROW_HEIGHT := (BOARD_SE.y - BOARD_NW.y) / (BOARD_ROWS - 1)
 
-const RED_KING_PIECE = preload("res://scenes/red_king_piece.tscn")
-const RED_ADVISOR_PIECE = preload("res://scenes/red_advisor_piece.tscn")
+const RED_INIT_SYMBOLS: Array[String] = [
+	"Ke0",
+	"Ad0",
+	"Af0",
+]
 
-const BLACK_KING_PIECE = preload("res://scenes/black_king_piece.tscn")
-const BLACK_ADVISOR_PIECE = preload("res://scenes/black_advisor_piece.tscn")
+const BLACK_INIT_SYMBOLS: Array[String] = [
+	"Ke9",
+	"Ad9",
+	"Af9",
+]
 
 var board: Array[Array] = []
 
@@ -26,13 +32,13 @@ func _init() -> void:
 		board.append(row)
 
 func _ready() -> void:
-	add_piece(RED_KING_PIECE.instantiate(), Vector2i(4, 0))
-	add_piece(RED_ADVISOR_PIECE.instantiate(), Vector2i(3, 0))
-	add_piece(RED_ADVISOR_PIECE.instantiate(), Vector2i(5, 0))
+	for symbol:String in RED_INIT_SYMBOLS:
+		var piece: Piece = PieceFactory.create(Piece.COLOR.RED, symbol)
+		add_piece(piece, piece.coordinate)
 
-	add_piece(BLACK_KING_PIECE.instantiate(), Vector2i(4, 9))
-	add_piece(BLACK_ADVISOR_PIECE.instantiate(), Vector2i(3, 9))
-	add_piece(BLACK_ADVISOR_PIECE.instantiate(), Vector2i(5, 9))
+	for symbol:String in BLACK_INIT_SYMBOLS:
+		var piece: Piece = PieceFactory.create(Piece.COLOR.BLACK, symbol)
+		add_piece(piece, piece.coordinate)
 
 func add_piece(piece: Piece, coordinate: Vector2i) -> void:
 	if coordinate.x >= 0 and coordinate.x < BOARD_COLS:
