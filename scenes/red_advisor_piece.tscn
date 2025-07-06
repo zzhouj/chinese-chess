@@ -9,4 +9,5 @@ texture = ExtResource("1_mexlk")
 region_enabled = true
 region_rect = Rect2(652, 387, 219, 219)
 script = ExtResource("2_e7e2b")
+type = 1
 metadata/_custom_type_script = "uid://ciinpb7ivdjiq"
