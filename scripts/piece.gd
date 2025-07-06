@@ -25,8 +25,23 @@ func get_chinese_name() -> String:
 	else:
 		return _BLACK_NAME[type]
 
-func search_movable_coordinates(board: Array[Array]) -> Array[Vector2i]:
+func get_boundary_box() -> Vector4i:
+	return Vector4i.ZERO
+
+func get_move_directions() -> Array[Vector2i]:
 	return []
+
+func search_movable_coordinates(board: Array[Array]) -> Array[Vector2i]:
+	var coords: Array[Vector2i] = []
+	var box: Vector4i = get_boundary_box()
+	for dir: Vector2i in get_move_directions():
+		var coord = coordinate + dir
+		if coord.x >= box.x and coord.x <= box.z and \
+		coord.y >= box.y and coord.y <= box.w:
+			var piece = board[coord.x][coord.y]
+			if piece == null or color != piece.color:
+				coords.append(coord)
+	return coords
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and \
