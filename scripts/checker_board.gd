@@ -14,12 +14,16 @@ const RED_INIT_SYMBOLS: Array[String] = [
 	"Ke0",
 	"Ad0",
 	"Af0",
+	"Ec0",
+	"Eg0",
 ]
 
 const BLACK_INIT_SYMBOLS: Array[String] = [
 	"Ke9",
 	"Ad9",
 	"Af9",
+	"Ec9",
+	"Eg9",
 ]
 
 var board: Array[Array] = []

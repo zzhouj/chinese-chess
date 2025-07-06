@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://brrnul7nqx5dm"]
+
+[ext_resource type="Texture2D" uid="uid://cgsjnm7hepy16" path="res://textures/chinese-chess-pieces.webp" id="1_dgq7w"]
+[ext_resource type="Script" uid="uid://d0eeys3doxgp5" path="res://scripts/elephant_piece.gd" id="2_dgq7w"]
+
+[node name="RedElephantPiece" type="Sprite2D"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_dgq7w")
+region_enabled = true
+region_rect = Rect2(918, 391, 220, 219)
+script = ExtResource("2_dgq7w")
+type = 2
+metadata/_custom_type_script = "uid://ciinpb7ivdjiq"

@@ -4,7 +4,7 @@ extends RefCounted
 const RED_PIECE_SECNES: Dictionary = {
 	"K": preload("res://scenes/red_king_piece.tscn"),
 	"A": preload("res://scenes/red_advisor_piece.tscn"),
-	#"E",
+	"E": preload("res://scenes/red_elephant_piece.tscn"),
 	#"N",
 	#"R",
 	#"C",
@@ -14,7 +14,7 @@ const RED_PIECE_SECNES: Dictionary = {
 const BLACK_PIECE_SECNES: Dictionary = {
 	"K": preload("res://scenes/black_king_piece.tscn"),
 	"A": preload("res://scenes/black_advisor_piece.tscn"),
-	#"E",
+	"E": preload("res://scenes/black_elephant_piece.tscn"),
 	#"N",
 	#"R",
 	#"C",
