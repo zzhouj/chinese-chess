@@ -8,7 +8,7 @@ const RED_PIECE_SECNES: Dictionary = {
 	#"N",
 	"R": preload("res://scenes/red_rook_piece.tscn"),
 	#"C",
-	#"P",
+	"P": preload("res://scenes/red_pawn_piece.tscn"),
 }
 
 const BLACK_PIECE_SECNES: Dictionary = {
@@ -18,7 +18,7 @@ const BLACK_PIECE_SECNES: Dictionary = {
 	#"N",
 	"R": preload("res://scenes/black_rook_piece.tscn"),
 	#"C",
-	#"P",
+	"P": preload("res://scenes/black_pawn_piece.tscn"),
 }
 
 static func create(color: Piece.COLOR, symbol: String) -> Piece:

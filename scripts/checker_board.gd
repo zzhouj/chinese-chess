@@ -18,6 +18,11 @@ const RED_INIT_SYMBOLS: Array[String] = [
 	"Eg0",
 	"Ra0",
 	"Ri0",
+	"Pa5",
+	"Pc4",
+	"Pe3",
+	"Pg3",
+	"Pi3",
 ]
 
 const BLACK_INIT_SYMBOLS: Array[String] = [
@@ -28,6 +33,11 @@ const BLACK_INIT_SYMBOLS: Array[String] = [
 	"Eg9",
 	"Ra9",
 	"Ri8",
+	"Pa6",
+	"Pc6",
+	"Pe6",
+	"Pg4",
+	"Pi5",
 ]
 
 var board: Array[Array] = []
