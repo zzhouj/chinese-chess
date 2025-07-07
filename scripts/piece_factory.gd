@@ -37,7 +37,7 @@ const SCRIPTS: Dictionary[String, GDScript] = {
 	"K": preload("res://scripts/king_piece.gd"),
 	"A": preload("res://scripts/advisor_piece.gd"),
 	"E": preload("res://scripts/elephant_piece.gd"),
-	"N": null,
+	"N": preload("res://scripts/knight_piece.gd"),
 	"R": preload("res://scripts/rook_piece.gd"),
 	"C": null,
 	"P": preload("res://scripts/pawn_piece.gd"),
