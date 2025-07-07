@@ -51,11 +51,11 @@ func _init() -> void:
 
 func _ready() -> void:
 	for symbol:String in RED_INIT_SYMBOLS:
-		var piece: Piece = PieceFactory.create(Piece.COLOR.RED, symbol)
+		var piece: Piece = PieceFactory.build(Piece.COLOR.RED, symbol)
 		add_piece(piece, piece.coordinate)
 
 	for symbol:String in BLACK_INIT_SYMBOLS:
-		var piece: Piece = PieceFactory.create(Piece.COLOR.BLACK, symbol)
+		var piece: Piece = PieceFactory.build(Piece.COLOR.BLACK, symbol)
 		add_piece(piece, piece.coordinate)
 
 func add_piece(piece: Piece, coordinate: Vector2i) -> void:

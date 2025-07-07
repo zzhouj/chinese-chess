@@ -21,7 +21,7 @@ const BLACK_PIECE_SECNES: Dictionary = {
 	"P": preload("res://scenes/black_pawn_piece.tscn"),
 }
 
-static func create(color: Piece.COLOR, symbol: String) -> Piece:
+static func build(color: Piece.COLOR, symbol: String) -> Piece:
 	assert(symbol.length() == 3, "symbol's length must be 3.")
 	var piece:Piece
 	if color == Piece.COLOR.RED:
