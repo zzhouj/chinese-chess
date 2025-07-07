@@ -6,7 +6,7 @@ const RED_PIECE_SECNES: Dictionary = {
 	"A": preload("res://scenes/red_advisor_piece.tscn"),
 	"E": preload("res://scenes/red_elephant_piece.tscn"),
 	#"N",
-	#"R",
+	"R": preload("res://scenes/red_rook_piece.tscn"),
 	#"C",
 	#"P",
 }
@@ -16,7 +16,7 @@ const BLACK_PIECE_SECNES: Dictionary = {
 	"A": preload("res://scenes/black_advisor_piece.tscn"),
 	"E": preload("res://scenes/black_elephant_piece.tscn"),
 	#"N",
-	#"R",
+	"R": preload("res://scenes/black_rook_piece.tscn"),
 	#"C",
 	#"P",
 }
