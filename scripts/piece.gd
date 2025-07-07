@@ -34,12 +34,11 @@ func get_move_directions() -> Array[Vector2i]:
 func get_move_steps() -> int:
 	return 1
 
-func check_boundary_box(coordinate: Vector2i) -> bool:
-	var box: Vector4i = get_boundary_box()
+func check_boundary_box(coordinate: Vector2i, box: Vector4i) -> bool:
 	return coordinate.x >= box.x and coordinate.x <= box.z and \
 		coordinate.y >= box.y and coordinate.y <= box.w
 
-func check_movable_coordinate(coordinate: Vector2i) -> bool:
+func check_movable_coordinate(_board: Array[Array], _coordinate: Vector2i) -> bool:
 	return true
 
 func search_movable_coordinates(board: Array[Array]) -> Array[Vector2i]:
@@ -48,11 +47,11 @@ func search_movable_coordinates(board: Array[Array]) -> Array[Vector2i]:
 		var coordinate: Vector2i = self.coordinate
 		for step: int in get_move_steps():
 			coordinate += direction
-			if not check_boundary_box(coordinate):
+			if not check_boundary_box(coordinate, get_boundary_box()):
 				break
 			var piece = board[coordinate.x][coordinate.y]
 			if piece == null or color != piece.color:
-				if check_movable_coordinate(coordinate):
+				if check_movable_coordinate(board, coordinate):
 					coordinates.append(coordinate)
 			if piece != null:
 				break

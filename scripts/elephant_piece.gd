@@ -18,5 +18,5 @@ func get_move_directions() -> Array[Vector2i]:
 func get_move_steps() -> int:
 	return 2
 
-func check_movable_coordinate(coordinate: Vector2i) -> bool:
+func check_movable_coordinate(_board: Array[Array], coordinate: Vector2i) -> bool:
 	return coordinate.distance_squared_to(self.coordinate) > 2
