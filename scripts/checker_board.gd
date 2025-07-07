@@ -11,8 +11,8 @@ const COL_WIDTH := (BOARD_SE.x - BOARD_NW.x) / (BOARD_COLS - 1)
 const ROW_HEIGHT := (BOARD_SE.y - BOARD_NW.y) / (BOARD_ROWS - 1)
 
 const RED_INIT_SYMBOLS: Array[String] = [
-	"Ke0",
-	"Ad0",
+	"Ke1",
+	"Ad1",
 	"Af0",
 	"Ec0",
 	"Eg0",
@@ -20,7 +20,7 @@ const RED_INIT_SYMBOLS: Array[String] = [
 
 const BLACK_INIT_SYMBOLS: Array[String] = [
 	"Ke9",
-	"Ad9",
+	"Ae8",
 	"Af9",
 	"Ec9",
 	"Eg9",

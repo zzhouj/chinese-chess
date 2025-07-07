@@ -31,17 +31,32 @@ func get_boundary_box() -> Vector4i:
 func get_move_directions() -> Array[Vector2i]:
 	return []
 
-func search_movable_coordinates(board: Array[Array]) -> Array[Vector2i]:
-	var coords: Array[Vector2i] = []
+func get_move_steps() -> int:
+	return 1
+
+func check_boundary_box(coordinate: Vector2i) -> bool:
 	var box: Vector4i = get_boundary_box()
-	for dir: Vector2i in get_move_directions():
-		var coord = coordinate + dir
-		if coord.x >= box.x and coord.x <= box.z and \
-		coord.y >= box.y and coord.y <= box.w:
-			var piece = board[coord.x][coord.y]
+	return coordinate.x >= box.x and coordinate.x <= box.z and \
+		coordinate.y >= box.y and coordinate.y <= box.w
+
+func check_movable_coordinate(coordinate: Vector2i) -> bool:
+	return true
+
+func search_movable_coordinates(board: Array[Array]) -> Array[Vector2i]:
+	var coordinates: Array[Vector2i] = []
+	for direction: Vector2i in get_move_directions():
+		var coordinate: Vector2i = self.coordinate
+		for step: int in get_move_steps():
+			coordinate += direction
+			if not check_boundary_box(coordinate):
+				break
+			var piece = board[coordinate.x][coordinate.y]
 			if piece == null or color != piece.color:
-				coords.append(coord)
-	return coords
+				if check_movable_coordinate(coordinate):
+					coordinates.append(coordinate)
+			if piece != null:
+				break
+	return coordinates
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and \
