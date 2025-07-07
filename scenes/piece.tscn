@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://0eqec8unyyjb"]
+
+[ext_resource type="Texture2D" uid="uid://cgsjnm7hepy16" path="res://textures/chinese-chess-pieces.webp" id="1_s58gp"]
+[ext_resource type="Script" uid="uid://ciinpb7ivdjiq" path="res://scripts/piece.gd" id="2_s58gp"]
+
+[node name="Piece" type="Sprite2D"]
+scale = Vector2(0.45, 0.45)
+texture = ExtResource("1_s58gp")
+region_enabled = true
+region_rect = Rect2(650, 144, 220, 220)
+script = ExtResource("2_s58gp")
