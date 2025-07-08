@@ -18,7 +18,7 @@ func check_movable_coordinate(board: Array[Array], coordinate: Vector2i) -> bool
 	while coordinate.y >= 0 and coordinate.y <= 9:
 		var piece = board[coordinate.x][coordinate.y]
 		if piece != null:
-			if piece.type == Piece.TYPE.KING:
+			if piece != self and piece.type == Piece.TYPE.KING:
 				return false
 			else:
 				return true
