@@ -77,6 +77,7 @@ func add_piece(piece: Piece) -> void:
 		board[coordinate.x][coordinate.y] = piece
 		piece.position = get_position_from_coordinate(coordinate)
 		piece.clicked.connect(_on_piece_clicked)
+		piece.moved.connect(_on_piece_moved)
 		add_child(piece)
 
 func add_candidate(candidate: Candidate) -> void:
@@ -103,7 +104,7 @@ func clear_candidates() -> void:
 	if selected_piece != null:
 		selected_piece.set_selected(false)
 	selected_piece = null
-	
+
 func set_current_round(next_round: Piece.COLOR) -> void:
 	current_round = next_round
 	if current_round == Piece.COLOR.RED:
@@ -121,15 +122,17 @@ func _on_piece_clicked(piece: Piece) -> void:
 	for coordinate: Vector2i in coordinates:
 		add_candidate(CandidateFactory.build(coordinate))
 
-func _on_candidate_clicked(candidate: Candidate) -> void:
-	assert(selected_piece != null, "selected_piece must not null.")
-	var orig_coord: Vector2i = selected_piece.coordinate
-	var new_coord: Vector2i = candidate.coordinate
-	var eaten_piece: Piece = board[new_coord.x][new_coord.y]
+func _on_piece_moved(piece: Piece) -> void:
+	var coordinate: Vector2i = piece.coordinate
+	var eaten_piece: Piece = board[coordinate.x][coordinate.y]
 	if eaten_piece != null:
 		eaten_piece.queue_free()
-	board[new_coord.x][new_coord.y] = selected_piece
-	board[orig_coord.x][orig_coord.y] = null
-	selected_piece.coordinate = new_coord
-	selected_piece.position = get_position_from_coordinate(new_coord)
+	board[coordinate.x][coordinate.y] = piece
+
+func _on_candidate_clicked(candidate: Candidate) -> void:
+	assert(selected_piece != null, "selected_piece must not null.")
+	var coordinate: Vector2i = selected_piece.coordinate
+	board[coordinate.x][coordinate.y] = null
+	selected_piece.coordinate = candidate.coordinate
+	selected_piece.target_position = get_position_from_coordinate(candidate.coordinate)
 	next_round()

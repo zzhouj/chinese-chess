@@ -8,7 +8,10 @@ const _SYMBOL: Array[String] = ["K", "A", "E", "N", "R", "C", "P"]
 const _RED_NAME: Array[String] = ["帅", "仕", "相", "马", "车", "炮", "兵"]
 const _BLACK_NAME: Array[String] = ["将", "士", "象", "马", "车", "砲", "卒"]
 
+const MOVE_SPEED: float = 800
+
 signal clicked(piece: Piece)
+signal moved(piece: Piece)
 
 @onready var area_2d: Area2D = %Area2D
 
@@ -17,6 +20,15 @@ signal clicked(piece: Piece)
 @export var coordinate: Vector2i
 
 var selected: bool
+var target_position: Vector2 = Vector2.ZERO
+
+func _physics_process(delta: float) -> void:
+	if target_position:
+		position = position.move_toward(target_position, MOVE_SPEED * delta)
+		if position.distance_to(target_position) < 0.1:
+			position = target_position
+			target_position = Vector2.ZERO
+			moved.emit(self)
 
 func get_symbol() -> String:
 	return _SYMBOL[type] + \
