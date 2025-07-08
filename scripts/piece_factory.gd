@@ -1,7 +1,7 @@
 class_name PieceFactory
 extends RefCounted
 
-const PIECE_SCENE: PackedScene = preload("res://scenes/piece.tscn")
+const PIECE: PackedScene = preload("res://scenes/piece.tscn")
 
 const TYPES: Dictionary[String, Piece.TYPE] = {
 	"K": Piece.TYPE.KING,
@@ -46,7 +46,7 @@ const SCRIPTS: Dictionary[String, GDScript] = {
 static func build(color: Piece.COLOR, symbol: String) -> Piece:
 	assert(symbol.length() == 3, "symbol's length must be 3.")
 	var s := symbol[0]
-	var piece: Piece = PIECE_SCENE.instantiate()
+	var piece: Piece = PIECE.instantiate()
 	piece.set_script(SCRIPTS[s])
 	piece.color = color
 	piece.type = TYPES[s]

@@ -60,21 +60,28 @@ func _init() -> void:
 func _ready() -> void:
 	for symbol:String in RED_INIT_SYMBOLS:
 		var piece: Piece = PieceFactory.build(Piece.COLOR.RED, symbol)
-		add_piece(piece, piece.coordinate)
+		add_piece(piece)
 
 	for symbol:String in BLACK_INIT_SYMBOLS:
 		var piece: Piece = PieceFactory.build(Piece.COLOR.BLACK, symbol)
-		add_piece(piece, piece.coordinate)
+		add_piece(piece)
 
-func add_piece(piece: Piece, coordinate: Vector2i) -> void:
-	if coordinate.x >= 0 and coordinate.x < BOARD_COLS:
-		if coordinate.y >= 0 and coordinate.y < BOARD_ROWS:
-			piece.coordinate = coordinate
-			board[coordinate.x][coordinate.y] = piece
-			piece.position = get_position_from_coordinate(coordinate)
-			add_child(piece)
-			piece.clicked.connect(_on_piece_clicked)
-			board[coordinate.x][coordinate.y] = piece
+func add_piece(piece: Piece) -> void:
+	var coordinate: Vector2i = piece.coordinate
+	if coordinate.x >= 0 and coordinate.x < BOARD_COLS and \
+	coordinate.y >= 0 and coordinate.y < BOARD_ROWS:
+		board[coordinate.x][coordinate.y] = piece
+		piece.position = get_position_from_coordinate(coordinate)
+		piece.clicked.connect(_on_piece_clicked)
+		add_child(piece)
+
+func add_candidate(candidate: Candidate) -> void:
+	var coordinate: Vector2i = candidate.coordinate
+	if coordinate.x >= 0 and coordinate.x < BOARD_COLS and \
+	coordinate.y >= 0 and coordinate.y < BOARD_ROWS:
+		candidate.position = get_position_from_coordinate(coordinate)
+		candidate.clicked.connect(_on_candidate_clicked)
+		add_child(candidate)
 
 func get_position_from_coordinate(coordinate: Vector2i) -> Vector2:
 	return BOARD_NW + Vector2(coordinate.x * COL_WIDTH, \
@@ -83,8 +90,14 @@ func get_position_from_coordinate(coordinate: Vector2i) -> Vector2:
 func _on_piece_clicked(piece: Piece) -> void:
 	if piece.selected:
 		piece.set_selected(false)
+		get_tree().call_group("candidate", "queue_free")
 	else:
 		get_tree().call_group("piece", "set_selected", false)
 		piece.set_selected(true)
-	var coordinates: Array[Vector2i] = piece.search_movable_coordinates(board)
-	print(piece.get_symbol(), coordinates)
+		var coordinates: Array[Vector2i] = piece.search_movable_coordinates(board)
+		get_tree().call_group("candidate", "queue_free")
+		for coordinate: Vector2i in coordinates:
+			add_candidate(CandidateFactory.build(coordinate))
+
+func _on_candidate_clicked(candidate: Candidate) -> void:
+	print("candidate", candidate.coordinate)
