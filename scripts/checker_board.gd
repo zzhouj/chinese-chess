@@ -33,6 +33,7 @@ const BLACK_INIT_SYMBOLS: Array[String] = [
 var board: Array[Array] = []
 var current_round: Piece.COLOR = Piece.COLOR.RED
 var selected_piece: Piece = null
+var game_histories: Array[String] = []
 
 func _init() -> void:
 	for i:int in BOARD_COLS:
@@ -115,6 +116,18 @@ func _on_candidate_clicked(candidate: Candidate) -> void:
 	assert(selected_piece != null, "selected_piece must not null.")
 	var coordinate: Vector2i = selected_piece.coordinate
 	board[coordinate.x][coordinate.y] = null
+	var orig_sym: String = selected_piece.get_symbol()
 	selected_piece.coordinate = candidate.coordinate
+	var dest_sym: String = selected_piece.get_symbol()
 	selected_piece.target_position = get_position_from_coordinate(candidate.coordinate)
+	var eaten: bool = board[candidate.coordinate.x][candidate.coordinate.y] != null
+	add_histories(orig_sym, dest_sym, eaten)
 	next_round()
+
+func add_histories(orig_sym: String, dest_sym: String, eaten: bool) -> void:
+	var action: String = "-"
+	if eaten:
+		action = "x"
+	var history = orig_sym + action + dest_sym.substr(1)
+	print(history)
+	game_histories.append(history)
