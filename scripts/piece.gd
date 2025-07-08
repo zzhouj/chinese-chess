@@ -8,11 +8,13 @@ const _SYMBOL: Array[String] = ["K", "A", "E", "N", "R", "C", "P"]
 const _RED_NAME: Array[String] = ["帅", "仕", "相", "马", "车", "炮", "兵"]
 const _BLACK_NAME: Array[String] = ["将", "士", "象", "马", "车", "砲", "卒"]
 
+signal clicked(piece: Piece)
+
 @export var color: COLOR
 @export var type: TYPE
 @export var coordinate: Vector2i
 
-signal clicked(piece: Piece)
+var selected: bool
 
 func get_symbol() -> String:
 	return _SYMBOL[type] + \
@@ -66,4 +68,11 @@ func _on_area_2d_mouse_entered() -> void:
 	modulate = Color.GRAY
 
 func _on_area_2d_mouse_exited() -> void:
-	modulate = Color.WHITE
+	set_selected(selected)
+
+func set_selected(selected: bool) -> void:
+	self.selected = selected
+	if selected:
+		modulate = Color.DARK_GRAY
+	else:
+		modulate = Color.WHITE

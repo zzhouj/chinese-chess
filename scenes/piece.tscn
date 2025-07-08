@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_s58gp"]
 radius = 110.0
 
-[node name="Piece" type="Sprite2D"]
+[node name="Piece" type="Sprite2D" groups=["piece"]]
 scale = Vector2(0.45, 0.45)
 texture = ExtResource("1_s58gp")
 region_enabled = true
