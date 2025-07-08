@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://0eqec8unyyjb"]
+[gd_scene load_steps=5 format=3 uid="uid://0eqec8unyyjb"]
 
 [ext_resource type="Texture2D" uid="uid://cgsjnm7hepy16" path="res://textures/chinese-chess-pieces.webp" id="1_s58gp"]
 [ext_resource type="Script" uid="uid://ciinpb7ivdjiq" path="res://scripts/piece.gd" id="2_s58gp"]
+[ext_resource type="AudioStream" uid="uid://bl6x2sku8kpex" path="res://sounds/piece_selected.wav" id="3_h2rng"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s58gp"]
 radius = 110.0
@@ -18,6 +19,10 @@ unique_name_in_owner = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_s58gp")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_h2rng")
 
 [connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]

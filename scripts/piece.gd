@@ -14,6 +14,7 @@ signal clicked(piece: Piece)
 signal moved(piece: Piece)
 
 @onready var area_2d: Area2D = %Area2D
+@onready var audio_stream_player: AudioStreamPlayer2D = %AudioStreamPlayer2D
 
 @export var color: COLOR
 @export var type: TYPE
@@ -29,6 +30,7 @@ func _physics_process(delta: float) -> void:
 			position = target_position
 			target_position = Vector2.ZERO
 			moved.emit(self)
+			audio_stream_player.play()
 
 func get_symbol() -> String:
 	return _SYMBOL[type] + \
@@ -77,6 +79,7 @@ func _on_area_2d_input_event(_viewport: Node, event: InputEvent, _shape_idx: int
 	if event is InputEventMouseButton and \
 	event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		clicked.emit(self)
+		audio_stream_player.play()
 
 func _on_area_2d_mouse_entered() -> void:
 	modulate = Color.GRAY
