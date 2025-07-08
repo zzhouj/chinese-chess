@@ -57,10 +57,13 @@ func search_movable_coordinates(board: Array[Array]) -> Array[Vector2i]:
 				break
 	return coordinates
 
-func _input(event: InputEvent) -> void:
+func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and \
 	event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		var local_pos = to_local(event.position)
-		var rect = Rect2(-region_rect.size / 2, region_rect.size)
-		if rect.has_point(local_pos):
-			clicked.emit(self)
+		clicked.emit(self)
+
+func _on_area_2d_mouse_entered() -> void:
+	modulate = Color.GRAY
+
+func _on_area_2d_mouse_exited() -> void:
+	modulate = Color.WHITE
