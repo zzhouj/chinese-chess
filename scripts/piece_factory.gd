@@ -52,8 +52,10 @@ static func build(color: Piece.COLOR, symbol: String) -> Piece:
 	piece.type = TYPES[s]
 	if color == Piece.COLOR.RED:
 		piece.region_rect = RED_REGION_RECTS[s]
+		piece.add_to_group("red")
 	else:
 		piece.region_rect = BLACK_REGION_RECTS[s]
+		piece.add_to_group("black")
 	var x := symbol.unicode_at(1) - "a".unicode_at(0)
 	var y := symbol.unicode_at(2) - "0".unicode_at(0)
 	piece.coordinate = Vector2i(x, y)

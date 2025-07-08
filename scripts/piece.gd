@@ -10,6 +10,8 @@ const _BLACK_NAME: Array[String] = ["将", "士", "象", "马", "车", "砲", "�
 
 signal clicked(piece: Piece)
 
+@onready var area_2d: Area2D = %Area2D
+
 @export var color: COLOR
 @export var type: TYPE
 @export var coordinate: Vector2i
@@ -76,3 +78,6 @@ func set_selected(selected: bool) -> void:
 		modulate = Color.DARK_GRAY
 	else:
 		modulate = Color.WHITE
+
+func set_pickable(pickable: bool) -> void:
+	area_2d.set_pickable(pickable)

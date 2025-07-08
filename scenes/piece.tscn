@@ -14,6 +14,7 @@ region_rect = Rect2(650, 144, 220, 220)
 script = ExtResource("2_s58gp")
 
 [node name="Area2D" type="Area2D" parent="."]
+unique_name_in_owner = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_s58gp")

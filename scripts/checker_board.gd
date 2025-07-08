@@ -49,6 +49,8 @@ const BLACK_INIT_SYMBOLS: Array[String] = [
 ]
 
 var board: Array[Array] = []
+var current_round: Piece.COLOR = Piece.COLOR.RED
+var selected_piece: Piece = null
 
 func _init() -> void:
 	for i:int in BOARD_COLS:
@@ -65,6 +67,8 @@ func _ready() -> void:
 	for symbol:String in BLACK_INIT_SYMBOLS:
 		var piece: Piece = PieceFactory.build(Piece.COLOR.BLACK, symbol)
 		add_piece(piece)
+
+	set_current_round(current_round)
 
 func add_piece(piece: Piece) -> void:
 	var coordinate: Vector2i = piece.coordinate
@@ -87,17 +91,47 @@ func get_position_from_coordinate(coordinate: Vector2i) -> Vector2:
 	return BOARD_NW + Vector2(coordinate.x * COL_WIDTH, \
 	(BOARD_ROWS - 1 - coordinate.y) * ROW_HEIGHT)
 
+func next_round() -> void:
+	if current_round == Piece.COLOR.RED:
+		set_current_round(Piece.COLOR.BLACK)
+	else:
+		set_current_round(Piece.COLOR.RED)
+	get_tree().call_group("candidate", "queue_free")
+	if selected_piece != null:
+		selected_piece.set_selected(false)
+	selected_piece = null
+
+func set_current_round(next_round: Piece.COLOR) -> void:
+	current_round = next_round
+	if current_round == Piece.COLOR.RED:
+		get_tree().call_group("red", "set_pickable", true)
+		get_tree().call_group("black", "set_pickable", false)
+	else:
+		get_tree().call_group("red", "set_pickable", false)
+		get_tree().call_group("black", "set_pickable", true)
+
 func _on_piece_clicked(piece: Piece) -> void:
+	get_tree().call_group("candidate", "queue_free")
 	if piece.selected:
 		piece.set_selected(false)
-		get_tree().call_group("candidate", "queue_free")
+		selected_piece = null
 	else:
 		get_tree().call_group("piece", "set_selected", false)
 		piece.set_selected(true)
+		selected_piece = piece
 		var coordinates: Array[Vector2i] = piece.search_movable_coordinates(board)
-		get_tree().call_group("candidate", "queue_free")
 		for coordinate: Vector2i in coordinates:
 			add_candidate(CandidateFactory.build(coordinate))
 
 func _on_candidate_clicked(candidate: Candidate) -> void:
-	print("candidate", candidate.coordinate)
+	assert(selected_piece != null, "selected_piece must not null.")
+	var orig_coord: Vector2i = selected_piece.coordinate
+	var new_coord: Vector2i = candidate.coordinate
+	var eaten_piece: Piece = board[new_coord.x][new_coord.y]
+	if eaten_piece != null:
+		eaten_piece.queue_free()
+	board[new_coord.x][new_coord.y] = selected_piece
+	board[orig_coord.x][orig_coord.y] = null
+	selected_piece.coordinate = new_coord
+	selected_piece.position = get_position_from_coordinate(new_coord)
+	next_round()
