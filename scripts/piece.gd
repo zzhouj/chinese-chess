@@ -25,10 +25,14 @@ var target_position: Vector2 = Vector2.ZERO
 
 func _physics_process(delta: float) -> void:
 	if target_position:
+		z_index = 1
+		scale = Vector2(0.5, 0.5)
 		position = position.move_toward(target_position, MOVE_SPEED * delta)
 		if position.distance_to(target_position) < 0.1:
 			position = target_position
 			target_position = Vector2.ZERO
+			z_index = 0
+			scale = Vector2(0.45, 0.45)
 			moved.emit(self)
 			audio_stream_player.play()
 
