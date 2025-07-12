@@ -20,7 +20,8 @@ signal moved(piece: Piece)
 @export var type: TYPE
 @export var coordinate: Vector2i
 
-var selected: bool
+var selected: bool = false
+var hovering: bool = false
 var target_position: Vector2 = Vector2.ZERO
 
 func _physics_process(delta: float) -> void:
@@ -86,17 +87,28 @@ func _on_area_2d_input_event(_viewport: Node, event: InputEvent, _shape_idx: int
 		audio_stream_player.play()
 
 func _on_area_2d_mouse_entered() -> void:
-	modulate = Color.GRAY
+	hovering = true
+	set_modulate_by_state()
 
 func _on_area_2d_mouse_exited() -> void:
-	set_selected(selected)
+	hovering = false
+	set_modulate_by_state()
 
 func set_selected(selected: bool) -> void:
 	self.selected = selected
+	set_modulate_by_state()
+
+func set_modulate_by_state() -> void:
 	if selected:
-		modulate = Color.DARK_GRAY
+		if hovering:
+			modulate = Color.DARK_GRAY
+		else:
+			modulate = Color.GRAY
 	else:
-		modulate = Color.WHITE
+		if hovering:
+			modulate = Color.LIGHT_GRAY
+		else:
+			modulate = Color.WHITE
 
 func set_pickable(pickable: bool) -> void:
 	area_2d.set_pickable(pickable)

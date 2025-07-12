@@ -98,12 +98,14 @@ func set_current_round(next_round: Piece.COLOR) -> void:
 		get_tree().call_group("black", "set_pickable", true)
 
 func _on_piece_clicked(piece: Piece) -> void:
+	var piece_selected: bool = piece.selected
 	clear_candidates()
-	piece.set_selected(true)
-	selected_piece = piece
-	var coordinates: Array[Vector2i] = piece.search_movable_coordinates(board)
-	for coordinate: Vector2i in coordinates:
-		add_candidate(CandidateFactory.build(coordinate))
+	if not piece_selected:
+		piece.set_selected(true)
+		selected_piece = piece
+		var coordinates: Array[Vector2i] = piece.search_movable_coordinates(board)
+		for coordinate: Vector2i in coordinates:
+			add_candidate(CandidateFactory.build(coordinate))
 
 func _on_piece_moved(piece: Piece) -> void:
 	var coordinate: Vector2i = piece.coordinate
