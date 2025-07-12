@@ -10,7 +10,7 @@ const BOARD_SE := Vector2(1072, 1230)
 const COL_WIDTH := (BOARD_SE.x - BOARD_NW.x) / (BOARD_COLS - 1)
 const ROW_HEIGHT := (BOARD_SE.y - BOARD_NW.y) / (BOARD_ROWS - 1)
 
-const RED_INIT_SYMBOLS: Array[String] = [
+const RED_SYMBOLS: Array[String] = [
 	"Ke0",
 	"Ad0", "Af0",
 	"Ec0", "Eg0",
@@ -20,7 +20,7 @@ const RED_INIT_SYMBOLS: Array[String] = [
 	"Pa3", "Pc3", "Pe3", "Pg3", "Pi3",
 ]
 
-const BLACK_INIT_SYMBOLS: Array[String] = [
+const BLACK_SYMBOLS: Array[String] = [
 	"Ke9",
 	"Ad9", "Af9",
 	"Ec9", "Eg9",
@@ -36,22 +36,36 @@ var selected_piece: Piece = null
 var game_histories: Array[String] = []
 
 func _init() -> void:
-	for i:int in BOARD_COLS:
+	for i: int in BOARD_COLS:
 		var row := []
-		for j:int in BOARD_ROWS:
+		for j: int in BOARD_ROWS:
 			row.append(null)
 		board.append(row)
 
 func _ready() -> void:
-	for symbol:String in RED_INIT_SYMBOLS:
+	new_game()
+
+func new_game() -> void:
+	load_game(RED_SYMBOLS, BLACK_SYMBOLS, Piece.COLOR.RED, [])
+
+func load_game(red_pieces: Array[String], black_piece: Array[String], \
+	current_round: Piece.COLOR, game_histories: Array[String]) -> void:
+	get_tree().call_group("piece", "queue_free")
+	get_tree().call_group("candidate", "queue_free")
+
+	for i: int in BOARD_COLS:
+		for j: int in BOARD_ROWS:
+			board[i][j] = null
+
+	for symbol:String in red_pieces:
 		var piece: Piece = PieceFactory.build(Piece.COLOR.RED, symbol)
 		add_piece(piece)
-
-	for symbol:String in BLACK_INIT_SYMBOLS:
+	for symbol:String in black_piece:
 		var piece: Piece = PieceFactory.build(Piece.COLOR.BLACK, symbol)
 		add_piece(piece)
 
 	set_current_round(current_round)
+	self.game_histories = game_histories
 
 func add_piece(piece: Piece) -> void:
 	var coordinate: Vector2i = piece.coordinate
@@ -66,14 +80,14 @@ func add_piece(piece: Piece) -> void:
 func add_candidate(candidate: Candidate) -> void:
 	var coordinate: Vector2i = candidate.coordinate
 	if coordinate.x >= 0 and coordinate.x < BOARD_COLS and \
-	coordinate.y >= 0 and coordinate.y < BOARD_ROWS:
+		coordinate.y >= 0 and coordinate.y < BOARD_ROWS:
 		candidate.position = get_position_from_coordinate(coordinate)
 		candidate.clicked.connect(_on_candidate_clicked)
 		add_child(candidate)
 
 func get_position_from_coordinate(coordinate: Vector2i) -> Vector2:
 	return BOARD_NW + Vector2(coordinate.x * COL_WIDTH, \
-	(BOARD_ROWS - 1 - coordinate.y) * ROW_HEIGHT)
+		(BOARD_ROWS - 1 - coordinate.y) * ROW_HEIGHT)
 
 func next_round() -> void:
 	clear_candidates()
