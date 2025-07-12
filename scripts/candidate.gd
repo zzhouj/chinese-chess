@@ -6,6 +6,8 @@ signal clicked(candidate: Candidate)
 const COLOR_NORMAL: Color = Color(1, 1, 1, 0.5)
 const COLOR_HOVER: Color = Color.WHITE
 
+@onready var animation_player: AnimationPlayer = %AnimationPlayer
+
 @export var coordinate: Vector2i
 
 func _ready() -> void:
@@ -18,6 +20,8 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 
 func _on_area_2d_mouse_entered() -> void:
 	modulate = COLOR_HOVER
+	animation_player.play("rotate")
 
 func _on_area_2d_mouse_exited() -> void:
 	modulate = COLOR_NORMAL
+	animation_player.stop()

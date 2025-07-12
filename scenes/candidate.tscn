@@ -1,10 +1,48 @@
-[gd_scene load_steps=4 format=3 uid="uid://ds8le0x3xnjui"]
+[gd_scene load_steps=7 format=3 uid="uid://ds8le0x3xnjui"]
 
 [ext_resource type="Texture2D" uid="uid://5t3xgnbe0ae" path="res://textures/ink_circle.png" id="1_m31fg"]
 [ext_resource type="Script" uid="uid://bc7rfnvy6tcsw" path="res://scripts/candidate.gd" id="2_dastc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_roj77"]
 radius = 375.0
+
+[sub_resource type="Animation" id="Animation_m31fg"]
+resource_name = "rotate"
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -6.28319]
+}
+
+[sub_resource type="Animation" id="Animation_dastc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_roj77"]
+_data = {
+&"RESET": SubResource("Animation_dastc"),
+&"rotate": SubResource("Animation_m31fg")
+}
 
 [node name="Candidate" type="Sprite2D" groups=["candidate"]]
 scale = Vector2(0.13, 0.13)
@@ -15,6 +53,12 @@ script = ExtResource("2_dastc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_roj77")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_roj77")
+}
 
 [connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
