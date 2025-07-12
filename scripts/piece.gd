@@ -4,11 +4,10 @@ extends Sprite2D
 enum COLOR {RED, BLACK}
 enum TYPE {KING, ADVISOR, ELEPHANT, KNIGHT, ROOK, CANNON, PAWN}
 
-const _SYMBOL: Array[String] = ["K", "A", "E", "N", "R", "C", "P"]
-const _RED_NAME: Array[String] = ["帅", "仕", "相", "马", "车", "炮", "兵"]
-const _BLACK_NAME: Array[String] = ["将", "士", "象", "马", "车", "砲", "卒"]
-
-const MOVE_SPEED: float = 800
+const SYMBOL: Array[String] = ["K", "A", "E", "N", "R", "C", "P"]
+const RED_NAME: Array[String] = ["帅", "仕", "相", "马", "车", "炮", "兵"]
+const BLACK_NAME: Array[String] = ["将", "士", "象", "马", "车", "砲", "卒"]
+const MOVING_DURATION: float = 0.2
 
 signal clicked(piece: Piece)
 signal moved(piece: Piece)
@@ -23,30 +22,43 @@ signal moved(piece: Piece)
 var selected: bool = false
 var hovering: bool = false
 var target_position: Vector2 = Vector2.ZERO
+var moving: bool = false
+var moving_speed: float
 
 func _physics_process(delta: float) -> void:
 	if target_position:
-		z_index = 1
-		scale = Vector2(0.5, 0.5)
-		position = position.move_toward(target_position, MOVE_SPEED * delta)
+		set_moving(true)
+		position = position.move_toward(target_position, moving_speed * delta)
 		if position.distance_to(target_position) < 0.1:
 			position = target_position
 			target_position = Vector2.ZERO
-			z_index = 0
-			scale = Vector2(0.45, 0.45)
+			set_moving(false)
 			moved.emit(self)
 			audio_stream_player.play()
 
+func move_to(target_position: Vector2) -> void:
+	self.target_position = target_position
+	self.moving_speed = position.distance_to(target_position) / MOVING_DURATION
+
+func set_moving(moving: bool) -> void:
+	self.moving = moving
+	if moving:
+		z_index = 1
+		scale = Vector2(0.5, 0.5)
+	else:
+		z_index = 0
+		scale = Vector2(0.45, 0.45)
+
 func get_symbol() -> String:
-	return _SYMBOL[type] + \
-	String.chr("a".unicode_at(0) + coordinate.x) + \
-	String.chr("0".unicode_at(0) + coordinate.y)
+	return SYMBOL[type] + \
+		String.chr("a".unicode_at(0) + coordinate.x) + \
+		String.chr("0".unicode_at(0) + coordinate.y)
 
 func get_chinese_name() -> String:
 	if color == COLOR.RED:
-		return _RED_NAME[type]
+		return RED_NAME[type]
 	else:
-		return _BLACK_NAME[type]
+		return BLACK_NAME[type]
 
 func get_boundary_box() -> Vector4i:
 	return Vector4i.ZERO
@@ -82,7 +94,7 @@ func search_movable_coordinates(board: Array[Array]) -> Array[Vector2i]:
 
 func _on_area_2d_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and \
-	event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		clicked.emit(self)
 		audio_stream_player.play()
 

@@ -46,17 +46,20 @@ func _ready() -> void:
 	new_game()
 
 func new_game() -> void:
-	load_game(RED_SYMBOLS, BLACK_SYMBOLS, Piece.COLOR.RED, [])
+	start_game(RED_SYMBOLS, BLACK_SYMBOLS, Piece.COLOR.RED, [])
 
-func load_game(red_pieces: Array[String], black_piece: Array[String], \
+func start_game(red_pieces: Array[String], black_piece: Array[String], \
 	current_round: Piece.COLOR, game_histories: Array[String]) -> void:
-	get_tree().call_group("piece", "queue_free")
-	get_tree().call_group("candidate", "queue_free")
-
+	# reset broad grid
 	for i: int in BOARD_COLS:
 		for j: int in BOARD_ROWS:
 			board[i][j] = null
 
+	# remove piece & candidate nodes from tree
+	get_tree().call_group("piece", "queue_free")
+	get_tree().call_group("candidate", "queue_free")
+
+	# add red & black pieces
 	for symbol:String in red_pieces:
 		var piece: Piece = PieceFactory.build(Piece.COLOR.RED, symbol)
 		add_piece(piece)
@@ -135,7 +138,7 @@ func _on_candidate_clicked(candidate: Candidate) -> void:
 	var orig_sym: String = selected_piece.get_symbol()
 	selected_piece.coordinate = candidate.coordinate
 	var dest_sym: String = selected_piece.get_symbol()
-	selected_piece.target_position = get_position_from_coordinate(candidate.coordinate)
+	selected_piece.move_to(get_position_from_coordinate(candidate.coordinate))
 	var eaten: bool = board[candidate.coordinate.x][candidate.coordinate.y] != null
 	add_histories(orig_sym, dest_sym, eaten)
 	next_round()
