@@ -68,7 +68,39 @@ func start_game(red_pieces: Array[String], black_piece: Array[String], \
 		add_piece(piece)
 
 	set_current_round(current_round)
+	selected_piece = null
 	self.game_histories = game_histories
+
+func save_game() -> bool:
+	var red_pieces: Array[String] = []
+	var black_pieces: Array[String] = []
+	for i: int in BOARD_COLS:
+		for j: int in BOARD_ROWS:
+			var piece: Piece = board[i][j]
+			if piece != null:
+				var symbol: String = piece.get_symbol()
+				if piece.color == Piece.COLOR.RED:
+					red_pieces.append(symbol)
+				else:
+					black_pieces.append(symbol)
+
+	var saved_data: SavedGame = SavedGame.new()
+	saved_data.red_pieces = red_pieces
+	saved_data.black_pieces = black_pieces
+	saved_data.current_round = current_round
+	saved_data.game_histories = game_histories
+
+	return ResourceSaver.save(saved_data, "user://saved_game.tres") == Error.OK
+
+func load_game() -> bool:
+	var resource = load("user://saved_game.tres")
+	if resource != null:
+		var saved_data: SavedGame = resource as SavedGame
+		start_game(saved_data.red_pieces, saved_data.black_pieces, \
+			saved_data.current_round, saved_data.game_histories)
+		return true
+
+	return false
 
 func add_piece(piece: Piece) -> void:
 	var coordinate: Vector2i = piece.coordinate
